@@ -36,8 +36,13 @@ public class SistemaAPA {
      * @param claveARemover Clave del instrumento que se quiere eliminar.
      */
     public void eliminarInstrumento(int claveARemover) {
-        directorio.remove(claveARemover);
-        System.out.println("\nInstrumento eliminado.");
+        if (directorio.containsKey(claveARemover)) {
+            directorio.remove(claveARemover);
+            System.out.println("\nInstrumento eliminado.");
+        } else {
+            System.out.println("Este instrumento ya fue eliminado o no existe.");
+        }
+
     }
 
 }
