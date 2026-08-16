@@ -1,3 +1,4 @@
+import Modelo.SistemaAPA;
 import Vista.*;
 void main() {
     /*
@@ -6,6 +7,23 @@ void main() {
     eliminarlos, y al correr o salir de la aplicacion
      */
     Vista vista = new Vista();
-    vista.preguntarNombreInstrumento();
+    vista.mostrarMenu();
+    SistemaAPA modelo = new SistemaAPA();
+    int opcion = vista.leerNumeroEntero();
+    switch (opcion) {
+        case 1:
+
+            modelo.registrarInstrumento();
+            break;
+        case 2:
+
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        default:
+            break;
+    }
 }
 

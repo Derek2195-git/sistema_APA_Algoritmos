@@ -20,6 +20,16 @@ public class Instrumento {
         fecha = "fecha de prueba";
     }
 
+    @Override
+    public String toString() {
+        return "Nombre del instrumento: " + nombre +
+                "Autor del instrumento: " + autor +
+                "Tipo del instrumento: " + tipoInstrumento +
+                "¿Es usado para el estrés o la ansiedad? Usado para " + convertirCondicion() +
+                "Validez de confiabilidad: " + validezConfiabilidad +
+                "Fecha de la cita: " + fecha;
+    }
+
     public Instrumento(String nombre, String autor, String tipoInstrumento,
                        int condicion, boolean validezConfiabilidad, String fecha) {
         this.nombre = nombre;
@@ -58,7 +68,20 @@ public class Instrumento {
         return condicion;
     }
 
+    public String convertirCondicion() {
+        // Como ocupamos saber si este atributo es para el estrés, la ansiedad o ambos,
+        // vamos a hacer esta funcion para cuando la consultemos
+        if (condicion == 1) {
+            return "el estrés";
+        } else if (condicion == 2) {
+            return "la ansiedad";
+        } else {
+            return "Ambos";
+        }
+    }
+
     public void setCondicion(int condicion) {
+
         this.condicion = condicion;
     }
 

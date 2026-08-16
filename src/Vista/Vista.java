@@ -11,8 +11,31 @@ public class Vista {
     }
 
     public void mostrarMenu() {
-        System.out.println("ESte es un menu");
+        System.out.println("Bienvenido al Sistema de la APA. Por favor ingresa una opción" +
+                "\n 1. Registrar un instrumento \n 2. Consultar un instrumento " +
+                "\n 3. Eliminar un instrumento \n 4. Salir");
     }
+
+    public String pedirNombre() {
+        System.out.println("Ingresa el nombre del instrumento: ");
+        return leerCadena();
+    }
+
+    public String pedirAutor() {
+        System.out.println("Ingresa el nombre del autor del instrumento: ");
+        return leerCadena();
+    }
+
+    public void pedirTipo() {
+
+    }
+    String nombre;
+    private String autor;
+    private String tipoInstrumento;
+    private int condicion;
+    private boolean validezConfiabilidad;
+    private String fecha;
+
 
     public String leerCadena() {
         return teclado.nextLine().trim().toLowerCase();
