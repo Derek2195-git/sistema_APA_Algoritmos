@@ -32,10 +32,20 @@ public class Vista {
     }
 
     public int pedirCondicion() {
-        System.out.println("Escribe el numero que corresponda a la condición: \n " +
-                "1. El instrumento es para la ansiedad \n 2. El instrumento es para el estrés " +
-                "\n 3. El instrumento es para la ansiedad y el estrés");
-        return leerNumeroEntero();
+        int numeroLeido;
+        do {
+            System.out.println("Escribe el numero que corresponda a la condición: \n " +
+                    "1. El instrumento es para la ansiedad \n 2. El instrumento es para el estrés " +
+                    "\n 3. El instrumento es para la ansiedad y el estrés");
+            numeroLeido = leerNumeroEntero();
+            if (numeroLeido > 0 && numeroLeido <= 3) {
+                break;
+            } else {
+                System.out.println("Error: El numero ingresado no esta en el rango de condiciones");
+            }
+        } while (!(numeroLeido > 0) || !(numeroLeido <= 3));
+        return numeroLeido;
+
     }
 
     public boolean pedirValidez() {
@@ -69,19 +79,21 @@ public class Vista {
     }
 
     public boolean leerBooleano() {
-        String cadena = leerCadena();
-        boolean valido;
-        while(true) {
-            // Tenemos que verificar primero si no son otra cosa
+        // Codigo feo, lo voy a optimizar por que estoy usando la misma cosa 3 veces
+        String cadena;
+        boolean cadenaValida = false;
+        boolean resultado = true;
+        do {
+            cadena = leerCadena();
             if (cadena.equalsIgnoreCase("Si") || cadena.equalsIgnoreCase("No")) {
-                valido = cadena.equalsIgnoreCase("Si") ? true : false;
-                break;
+                resultado = cadena.equalsIgnoreCase("Si") ? true : false;
+                cadenaValida = true;
             } else {
-                System.out.println("Entrada invalida, por favor escribe 'Si' o 'No' ");
-                cadena = leerCadena();
+                System.out.println("Error: Ingresa por favor 'Si' o 'No'");
             }
-        }
-        return valido;
+        } while (!cadenaValida);
+
+        return resultado;
 
     }
 

@@ -18,6 +18,7 @@ public class SistemaAPA {
 
         directorio.put(clave, instrumento);
         System.out.println("Exito! Se creo el instrumento con los siguientes datos: \n" + instrumento);
+        System.out.println("Quitar esto despues de hacer las consultas: La clave del instrumento es: " + clave);
     }
 
     public int generarClave() {
