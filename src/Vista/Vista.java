@@ -11,13 +11,13 @@ public class Vista {
     }
 
     public void mostrarMenu() {
-        System.out.println("Bienvenido al Sistema de la APA. Por favor ingresa una opción" +
+        System.out.println("\nBienvenido al Sistema de la APA. Por favor ingresa una opción" +
                 "\n 1. Registrar un instrumento \n 2. Consultar un instrumento " +
                 "\n 3. Eliminar un instrumento \n 4. Salir");
     }
 
     public String pedirNombre() {
-        System.out.println("Ingresa el nombre del instrumento: ");
+        System.out.println("\nIngresa el nombre del instrumento: ");
         return leerCadena();
     }
 

@@ -35,9 +35,12 @@ void main() {
                 modelo.consultarInstrumento(clave);
                 break;
             case 3:
+                System.out.println("Introduce la clave del instrumento: ");
+                int claveAEliminar = vista.leerNumeroEntero();
+                modelo.eliminarInstrumento(claveAEliminar);
                 break;
             case 4:
-                System.out.println("Saliendo...");
+                System.out.println("\nSaliendo...");
                 break;
             default:
                 break;
