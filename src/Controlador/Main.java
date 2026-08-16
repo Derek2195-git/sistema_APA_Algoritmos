@@ -7,23 +7,42 @@ void main() {
     eliminarlos, y al correr o salir de la aplicacion
      */
     Vista vista = new Vista();
-    vista.mostrarMenu();
     SistemaAPA modelo = new SistemaAPA();
-    int opcion = vista.leerNumeroEntero();
-    switch (opcion) {
-        case 1:
+    int opcion = 0;
+    do {
+        vista.mostrarMenu();
+        opcion = vista.leerNumeroEntero();
+        switch (opcion) {
+            case 1:
+                // Pedimos las cosas una a una y luego registramos el instrumento
+                // El orden es nombre, autor, tipo, condicion, validez y fecha
+                String nombre = vista.pedirNombre();
+                String autor = vista.pedirAutor();
+                String tipo = vista.pedirTipo();
+                int condicion = vista.pedirCondicion();
+                boolean validez = vista.pedirValidez();
+                String fecha = vista.pedirFecha();
 
-            modelo.registrarInstrumento();
-            break;
-        case 2:
+                modelo.registrarInstrumento(nombre, autor, tipo, condicion, validez, fecha);
+                break;
+            case 2:
+            /*
+             Esto se debe poner en la vista, lo deje asi por mientras en lo que
+             checaba si se estaban metiendo los instrumentos
+             */
+                System.out.println("Introduce la clave del instrumento");
+                int clave = vista.leerNumeroEntero();
+                modelo.consultarInstrumento(clave);
+                break;
+            case 3:
+                break;
+            case 4:
+                System.out.println("Saliendo...");
+                break;
+            default:
+                break;
+        }
 
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        default:
-            break;
-    }
+    } while (opcion != 4);
 }
 

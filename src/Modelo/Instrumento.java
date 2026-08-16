@@ -11,6 +11,10 @@ public class Instrumento {
     private int condicion;
     private boolean validezConfiabilidad;
     private String fecha;
+
+    /**
+     * Constructor del instrumento
+     */
     public Instrumento() {
         nombre = "prueba";
         autor = "prueba";
@@ -20,14 +24,18 @@ public class Instrumento {
         fecha = "fecha de prueba";
     }
 
+    /**
+     * Metodo toString del instrumento
+     * @return Retorna los datos que tiene el instrumento actualmente
+     */
     @Override
     public String toString() {
-        return "Nombre del instrumento: " + nombre +
-                "Autor del instrumento: " + autor +
-                "Tipo del instrumento: " + tipoInstrumento +
-                "¿Es usado para el estrés o la ansiedad? Usado para " + convertirCondicion() +
-                "Validez de confiabilidad: " + validezConfiabilidad +
-                "Fecha de la cita: " + fecha;
+        return "Nombre del instrumento: " + nombre + "\n" +
+                "Autor del instrumento: " + autor + "\n" +
+                "Tipo del instrumento: " + tipoInstrumento + "\n" +
+                "¿Es usado para el estrés o la ansiedad? Usado para " + convertirCondicion() + "\n" +
+                "Validez de confiabilidad: " + validezConfiabilidad + "\n" +
+                "Fecha de la cita: " + fecha + "\n";
     }
 
     public Instrumento(String nombre, String autor, String tipoInstrumento,
