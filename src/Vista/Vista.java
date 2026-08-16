@@ -4,23 +4,33 @@ import Modelo.*;
 import java.util.Scanner;
 
 public class Vista {
-    Instrumento instrumento = new Instrumento();
+    Scanner teclado;
 
-    Scanner teclado = new Scanner(System.in);
-    // Esto se va a reescribir, por que no es lo que se pedia
-    public void preguntarNombreInstrumento() {
-        System.out.println("Ingresa el nombre del autor");
-        String autor = leerCadena();
-        System.out.println("Mostrando los instrumentos que tiene " + autor);
-        instrumento.getDirectorioAutores().get(autor);
-        System.out.println("Introduce la opcion a realizar \n 1. Identificar por tipo \n " +
-                "2. Identificar por forma de instrumento \n 3. Identificar por condicion" );
+    public Vista() {
+        teclado = new Scanner(System.in);
+    }
 
+    public void mostrarMenu() {
+        System.out.println("ESte es un menu");
     }
 
     public String leerCadena() {
-        String cadena = teclado.nextLine();
-        return cadena;
+        return teclado.nextLine().trim().toLowerCase();
+    }
+
+    public int leerNumeroEntero() {
+        boolean numeroIngresado = false;
+        int numeroLeido = 0;
+        while (!numeroIngresado) {
+            try {
+                String numero =  teclado.nextLine().trim();
+                numeroLeido = Integer.parseInt(numero);
+                numeroIngresado = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada invalida, escribe solamente un numero entero.");
+            }
+        }
+        return numeroLeido;
     }
 
 

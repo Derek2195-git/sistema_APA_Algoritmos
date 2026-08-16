@@ -5,52 +5,76 @@ import java.util.HashMap;
 
 // Esta clase se va a reestructurar totalmente para estar más acorde a lo que se pidió en clase
 public class Instrumento {
-    private String formaInstrumento;
-    private HashMap<String, ArrayList<String>> directorioAutores;
-    private String condicion;
-    private int validez;
+    private String nombre;
+    private String autor;
+    private String tipoInstrumento;
+    private int condicion;
+    private boolean validezConfiabilidad;
+    private String fecha;
     public Instrumento() {
-        // Autor y los instrumentos que usa el autor
-        directorioAutores = new HashMap<>();
-        formaInstrumento = "";
-        condicion = "";
-        validez = 100;
-        // Falta algo de cita
-
+        nombre = "prueba";
+        autor = "prueba";
+        tipoInstrumento = "prueba";
+        condicion = 3;
+        validezConfiabilidad = true;
+        fecha = "fecha de prueba";
     }
 
-    public String getFormaInstrumento() {
-        return formaInstrumento;
+    public Instrumento(String nombre, String autor, String tipoInstrumento,
+                       int condicion, boolean validezConfiabilidad, String fecha) {
+        this.nombre = nombre;
+        this.autor = autor;
+        this.tipoInstrumento = tipoInstrumento;
+        this.condicion = condicion;
+        this.validezConfiabilidad = validezConfiabilidad;
+        this.fecha = fecha;
     }
 
-    public void setFormaInstrumento(String formaInstrumento) {
-        this.formaInstrumento = formaInstrumento;
+    public String getNombre() {
+        return nombre;
     }
 
-    public HashMap getDirectorioAutores() {
-        return directorioAutores;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public void setDirectorioAutores(HashMap<String, ArrayList<String>> directorioAutores) {
-        this.directorioAutores = directorioAutores;
+    public String getAutor() {
+        return autor;
     }
 
-    public String getCondicion() {
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public String getTipoInstrumento() {
+        return tipoInstrumento;
+    }
+
+    public void setTipoInstrumento(String tipoInstrumento) {
+        this.tipoInstrumento = tipoInstrumento;
+    }
+
+    public int getCondicion() {
         return condicion;
     }
 
-    public void setCondicion(String condicion) {
+    public void setCondicion(int condicion) {
         this.condicion = condicion;
     }
 
-    public int getValidez() {
-        return validez;
+    public boolean isValidezConfiabilidad() {
+        return validezConfiabilidad;
     }
 
-    public void setValidez(int validez) {
-        this.validez = validez;
+    public void setValidezConfiabilidad(boolean validezConfiabilidad) {
+        this.validezConfiabilidad = validezConfiabilidad;
     }
 
+    public String getFecha() {
+        return fecha;
+    }
 
-
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
 }
