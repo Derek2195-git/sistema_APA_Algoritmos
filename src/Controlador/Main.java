@@ -31,20 +31,7 @@ public static void main() {
                 modelo.registrarInstrumento(nombre, autor, tipo, condicion, validez, fecha);
                 break;
             case 2:
-                int opcionConsulta = vista.pedirOpcionConsulta();
-
-                if (opcionConsulta == 1) {
-                    modelo.mostrarTodos();
-                } else if (opcionConsulta == 2) {
-                    String autorBusqueda = vista.pedirAutor();
-                    modelo.consultarPorAutor(autorBusqueda);
-                } else if (opcionConsulta == 3) {
-                    int condicionBusqueda = vista.pedirCondicion();
-                    boolean validezBusqueda = vista.pedirValidez();
-                    modelo.consultarPorCondicionYValidez(condicionBusqueda, validezBusqueda);
-                } else {
-                    System.out.println("Opción no válida.");
-                }
+                menuConsulta(vista, modelo);
                 break;
             case 3:
                 System.out.println("Introduce la clave del instrumento: ");
@@ -65,4 +52,44 @@ public static void main() {
 
     } while (opcion != 4);
 }
+
+/**
+ * Este metodo es un submenu para las consultas, se dividio para hacer más legible el switch del metodo principal
+ * @param vista Vista que se esta usando para el programa
+ * @param modelo Modelo usado para el programa
+ */
+static void menuConsulta(Vista vista, SistemaAPA modelo) {
+    int opcionConsulta = vista.pedirOpcionConsulta();
+    switch(opcionConsulta) {
+        case 1:
+            modelo.mostrarTodos();
+            break;
+        case 2:
+            String autorBusqueda = vista.pedirAutor();
+            modelo.consultarPorAutor(autorBusqueda);
+            break;
+        case 3:
+            int condicionBusqueda = vista.pedirCondicion();
+            boolean validezBusqueda = vista.pedirValidez();
+            modelo.consultarPorCondicionYValidez(condicionBusqueda, validezBusqueda);
+            break;
+        case 4:
+            String tipoBusqueda = vista.pedirTipo();
+            modelo.consultarPorTipo(tipoBusqueda);
+         break;
+        case 5:
+            condicionBusqueda = vista.pedirCondicion();
+            modelo.consultarPorCondicion(condicionBusqueda);
+            break;
+        case 6:
+            validezBusqueda = vista.pedirValidez();
+            modelo.consultarPorValidez(validezBusqueda);
+            break;
+        case 7:
+        default:
+            System.out.println("Volviendo al menu principal...");
+    }
+
+}
+
 

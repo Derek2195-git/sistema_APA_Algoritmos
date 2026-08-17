@@ -147,9 +147,15 @@ public class Vista {
         System.out.println("¿Cómo deseas consultar los instrumentos?\n" +
                 " 1. Mostrar todos\n" +
                 " 2. Buscar por autor\n" +
-                " 3. Buscar por condición y validez");
+                " 3. Buscar por condición y validez \n" +
+                " 4. Buscar por tipo de instrumento \n" +
+                " 5. Buscar por condicion del instrumento \n" +
+                " 6. Buscar de acuerdo a la evaluación de validez y confiabilidad \n" +
+                " 7. Volver al menú anterior");
+
         return leerNumeroEntero();
     }
+
 
 
 }

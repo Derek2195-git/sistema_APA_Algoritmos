@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SistemaAPA {
     private Instrumento instrumento;
@@ -103,20 +105,27 @@ public class SistemaAPA {
     }
 
     // 1. Mostrar todos ordenados por clave (del 1 en adelante)
+
+    /**
+     * Metodo que muestra todos los instrumentos que hay en el directorio de instrumento, ordenados por clave
+     */
     public void mostrarTodos() {
         if (directorio.isEmpty()) {
             System.out.println("No hay instrumentos registrados.");
             return;
         }
-        for (int i = 1; i <= directorio.size(); i++) {
-            if (directorio.containsKey(i)) {
-                System.out.println("Clave: " + i);
-                System.out.println(directorio.get(i));
-            }
-        }
+        directorio.entrySet().stream().forEach(k -> {
+            System.out.println("Clave: " + k.getKey());
+            System.out.println(k.getValue());
+        });
     }
 
     // 2. Buscar instrumentos por autor
+
+    /**
+     * Metodo que muestra todos los instrumentos bajo el nombre de un autor
+     * @param autor Nombre del autor
+     */
     public void consultarPorAutor(String autor) {
         boolean encontrado = false;
         for (Integer key : directorio.keySet()) {
@@ -133,6 +142,12 @@ public class SistemaAPA {
     }
 
     // 3. Buscar por condición y validez
+
+    /**
+     * Metodo que muestra todos los instrumentos bajo una condicion y una evaluacion de validez especifica
+     * @param condicion Numero correspondiente de la condicion a buscar
+     * @param validez Resultado de la evaluación de validez y confiabilidad a buscar
+     */
     public void consultarPorCondicionYValidez(int condicion, boolean validez) {
         boolean encontrado = false;
         for (Integer key : directorio.keySet()) {
@@ -146,6 +161,56 @@ public class SistemaAPA {
         if (!encontrado) {
             System.out.println("No se encontraron instrumentos con la condición y validez indicadas.");
         }
+    }
+
+    /**
+     * Metodo que busca todos los instrumentos bajo un mismo tipo, en este caso se uso un Map.Entry para manejarlo todo
+     * bajo un lambda y poder avisar que no hay resultados si no se encuentran
+     * @param tipoBusqueda Tipo de los instrumentos a buscar
+     */
+    public void consultarPorTipo(String tipoBusqueda) {
+        ArrayList<Map.Entry<Integer, Instrumento>> directorioFiltrado = directorio.entrySet().stream().filter((k) ->
+                k.getValue().getTipoInstrumento().equalsIgnoreCase(tipoBusqueda)
+        ).collect(Collectors.toCollection(ArrayList::new));
+        if (directorioFiltrado.isEmpty()) System.out.println("No se encontraron instrumentos del tipo indicado");
+        else directorioFiltrado.forEach(k -> {
+            System.out.println("Clave: " + k.getKey());
+            System.out.println(k.getValue());
+        });
+
+    }
+
+    /**
+     * Metodo que busca todos los instrumentos bajo una misma condicion, en este caso se uso un Map.Entry
+     * para manejarlo bajo un lambda y poder avisar que no hay resultados si no se encuentran
+     * @param condicionBusqueda
+     */
+    public void consultarPorCondicion(int condicionBusqueda) {
+        ArrayList<Map.Entry<Integer, Instrumento>> directorioFiltrado = directorio.entrySet().stream()
+                .filter(k -> k.getValue().getCondicion() == condicionBusqueda)
+                .collect(Collectors.toCollection(ArrayList::new));
+        if (directorioFiltrado.isEmpty()) System.out.println("No se encontraron instrumentos con la condicion indicada");
+        else directorioFiltrado.forEach(k -> {
+            System.out.println("Clave: " + k.getKey());
+            System.out.println(k.getValue());
+        });
+    }
+
+    /**
+     * Metodo que busca todos los instrumentos bajo una misma evaluación de validez y busqueda. Aqui tambien usamos
+     * Map.Entry para manejar el metodo bajo un lambda y avisar en caso de que no haya coincidencias
+     * @param validezBusqueda
+     */
+    public void consultarPorValidez(boolean validezBusqueda) {
+        ArrayList<Map.Entry<Integer, Instrumento>> directorioFiltrado = directorio.entrySet().stream()
+                .filter(k -> k.getValue().isValidezConfiabilidad() == validezBusqueda)
+                .collect(Collectors.toCollection(ArrayList::new));
+        if (directorioFiltrado.isEmpty()) System.out.println("No se encontraron instrumentos con la evaluación de " +
+                "validez y confiabilidad indicada");
+        else directorioFiltrado.forEach(k -> {
+            System.out.println("Clave: " + k.getKey());
+            System.out.println(k.getValue());
+        });
     }
 
     /**
