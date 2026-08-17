@@ -26,13 +26,20 @@ void main() {
                 modelo.registrarInstrumento(nombre, autor, tipo, condicion, validez, fecha);
                 break;
             case 2:
-            /*
-             Esto se debe poner en la vista, lo deje asi por mientras en lo que
-             checaba si se estaban metiendo los instrumentos
-             */
-                System.out.println("Introduce la clave del instrumento");
-                int clave = vista.leerNumeroEntero();
-                modelo.consultarInstrumento(clave);
+                int opcionConsulta = vista.pedirOpcionConsulta();
+
+                if (opcionConsulta == 1) {
+                    modelo.mostrarTodos();
+                } else if (opcionConsulta == 2) {
+                    String autorBusqueda = vista.pedirAutor();
+                    modelo.consultarPorAutor(autorBusqueda);
+                } else if (opcionConsulta == 3) {
+                    int condicionBusqueda = vista.pedirCondicion();
+                    boolean validezBusqueda = vista.pedirValidez();
+                    modelo.consultarPorCondicionYValidez(condicionBusqueda, validezBusqueda);
+                } else {
+                    System.out.println("Opción no válida.");
+                }
                 break;
             case 3:
                 break;
