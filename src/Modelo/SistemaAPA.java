@@ -1,5 +1,8 @@
 package Modelo;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class SistemaAPA {
@@ -30,15 +33,43 @@ public class SistemaAPA {
 
         directorio.put(clave, instrumento);
         System.out.println("Exito! Se creo el instrumento con los siguientes datos: \n" + instrumento);
-        System.out.println("Quitar esto despues de hacer las consultas: La clave del instrumento es: " + clave);
+        try {
+            guardarArchivo();
+        } catch (IOException e) {
+            System.out.println("Error: El sistema no pudo guardar en un archivo de texto el instrumento");
+        }
     }
 
+    /**
+     * Metodo sobrecargado de registrarInstrumento el cual permite una clave personalizada
+     * @param nombre Nombre del instrumento
+     * @param autor Autor del instrumento
+     * @param tipoInstrumento Tipo de instrumento
+     * @param condicion Condicion del instrumento (Si es para el estrés, la ansiedad o las dos)
+     * @param validez Si el instrumento es válido y confiable
+     * @param fecha Fecha en la que se realiza la evaluación
+     * @param clave Clave que tendra el hashmap para ubicar al instrumento
+     */
+    public void registrarInstrumento(String nombre, String autor, String tipoInstrumento, int condicion,
+                                     boolean validez, String fecha, int clave) {
+        instrumento = new Instrumento(nombre, autor, tipoInstrumento, condicion, validez, fecha);
+        directorio.put(clave, instrumento);
+    }
     /**
      * Metodo que genera una clave para el hashmap tomando en cuenta el tamaño de este
      * @return Un número entero que funciona como la clave para diferenciar entre los distintos instrumentos
      */
     public int generarClave() {
-        return directorio.size() + 1;
+        int factorClave = 1;
+        do {
+            if (!directorio.containsKey(directorio.size() + factorClave)) {
+                break;
+            } else {
+                factorClave++;
+            }
+        } while (true);
+
+        return directorio.size() + factorClave;
     }
 
     /**
@@ -60,6 +91,11 @@ public class SistemaAPA {
         if (directorio.containsKey(claveARemover)) {
             directorio.remove(claveARemover);
             System.out.println("\nInstrumento eliminado.");
+            try {
+                guardarArchivo();
+            } catch (IOException e) {
+                System.out.println("Error al guardar el archivo: " + e.getMessage());
+            }
         } else {
             System.out.println("Este instrumento ya fue eliminado o no existe.");
         }
@@ -110,6 +146,68 @@ public class SistemaAPA {
         if (!encontrado) {
             System.out.println("No se encontraron instrumentos con la condición y validez indicadas.");
         }
+    }
+
+    /**
+     * Metodo que lee un archivo de texto CSV y pasa los datos de este al directorio de instrumentos
+     * @throws IOException Excepcion que ocurre en caso de que no se pueda cargar el archivo
+     */
+    public void leerArchivo() throws IOException {
+        ArrayList<String[]> arregloCSV = new ArrayList<>();
+        // Cargamos el archivo y lo metemos al arrayList
+
+        try (
+                BufferedReader lector = new BufferedReader(new FileReader("src/directorio.txt"))
+                ) {
+            String linea;
+            while ((linea = lector.readLine()) != null) {
+                if (!linea.trim().isEmpty()) {
+                    try {
+                        String[] celdas = linea.split(",");
+                        arregloCSV.add(celdas);
+                    } catch (Exception e) {
+                        System.out.println("Error en la linea: " + e.getMessage());
+                    }
+                }
+            }
+        }
+
+        // Una vez hecho esto deberia meter al hashmap el contenido del archivo
+        arregloCSV.forEach(linea -> {
+            String nombre = linea[0];
+            String autor = linea[1];
+            String tipo = linea[2];
+            int condicion = Integer.parseInt(linea[3]);
+            boolean validez = Boolean.parseBoolean(linea[4]);
+            String fecha = linea[5];
+            int clave = Integer.parseInt(linea[6]);
+
+            registrarInstrumento(nombre, autor, tipo, condicion, validez, fecha, clave);
+        });
+    }
+
+    /**
+     * Metodo que guarda en un archivo .txt los instrumentos existentes en el directorio de instrumentos
+     * @throws IOException Excepcion que ocurre en el caso de que no se pueda escribir la informacion al archivo
+     */
+    public void guardarArchivo() throws IOException {
+        try (
+                BufferedWriter escritor = new BufferedWriter(new FileWriter("src/directorio.txt"));
+                ) {
+            directorio.forEach((k,v) -> {
+                try {
+                    escritor.write(v.getNombre() + "," + v.getAutor() + "," +
+                            v.getTipoInstrumento() + "," + v.getCondicion() + "," + v.isValidezConfiabilidad()
+                            + "," + v.getFecha() + "," + String.valueOf(k));
+                    escritor.newLine();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+        }
+
+
     }
 
 }

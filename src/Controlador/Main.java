@@ -1,6 +1,6 @@
 import Modelo.SistemaAPA;
 import Vista.*;
-void main() {
+public static void main() {
     /*
     Aqui se va a enlazar la vista y el modelo cuando esten listos, por mientras vayan trabajando
     en los archivos de texto, estos se deben guardar o cargar automaticamente al registrar usuarios,
@@ -9,6 +9,11 @@ void main() {
     Vista vista = new Vista();
     SistemaAPA modelo = new SistemaAPA();
     int opcion = 0;
+    try {
+        modelo.leerArchivo();
+    } catch (IOException e) {
+        System.out.println("Error: " + e.getMessage());
+    }
     do {
         vista.mostrarMenu();
         opcion = vista.leerNumeroEntero();
@@ -48,6 +53,11 @@ void main() {
                 break;
             case 4:
                 System.out.println("\nSaliendo...");
+                try {
+                    modelo.guardarArchivo();
+                } catch (IOException e) {
+                    System.out.println("Error: El sistema no pudo guardar en un archivo de texto el instrumento");
+                }
                 break;
             default:
                 break;

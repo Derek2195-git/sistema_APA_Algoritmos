@@ -96,7 +96,7 @@ public class Vista {
      * @return Una cadena sin espacios innecesarios y convertida a minusculas
      */
     public String leerCadena() {
-        return teclado.nextLine().trim().toLowerCase();
+        return teclado.nextLine().trim().toLowerCase().replace(",", "");
     }
 
     /**
@@ -139,6 +139,10 @@ public class Vista {
         return resultado;
     }
 
+    /**
+     * Metodo que muestra un submenú al consultar los instrumentos
+     * @return opcion del menu dada por el usuario
+     */
     public int pedirOpcionConsulta() {
         System.out.println("¿Cómo deseas consultar los instrumentos?\n" +
                 " 1. Mostrar todos\n" +
@@ -146,5 +150,6 @@ public class Vista {
                 " 3. Buscar por condición y validez");
         return leerNumeroEntero();
     }
+
 
 }
