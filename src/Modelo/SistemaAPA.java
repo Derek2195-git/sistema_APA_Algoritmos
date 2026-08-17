@@ -47,7 +47,9 @@ public class SistemaAPA {
      * @param clave Clave única que tiene un instrumento en el hashmap
      */
     public void consultarInstrumento(int clave) {
-        System.out.println(directorio.get(clave));
+        if (directorio.get(clave) == null) {
+            System.out.println("Error: El instrumento con la clave ingresada no existe");
+        } else System.out.println(directorio.get(clave));
     }
 
     /**
