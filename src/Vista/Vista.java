@@ -139,4 +139,12 @@ public class Vista {
         return resultado;
     }
 
+    public int pedirOpcionConsulta() {
+        System.out.println("¿Cómo deseas consultar los instrumentos?\n" +
+                " 1. Mostrar todos\n" +
+                " 2. Buscar por autor\n" +
+                " 3. Buscar por condición y validez");
+        return leerNumeroEntero();
+    }
+
 }

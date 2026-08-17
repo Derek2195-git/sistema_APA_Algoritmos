@@ -66,4 +66,50 @@ public class SistemaAPA {
 
     }
 
+    // 1. Mostrar todos ordenados por clave (del 1 en adelante)
+    public void mostrarTodos() {
+        if (directorio.isEmpty()) {
+            System.out.println("No hay instrumentos registrados.");
+            return;
+        }
+        for (int i = 1; i <= directorio.size(); i++) {
+            if (directorio.containsKey(i)) {
+                System.out.println("Clave: " + i);
+                System.out.println(directorio.get(i));
+            }
+        }
+    }
+
+    // 2. Buscar instrumentos por autor
+    public void consultarPorAutor(String autor) {
+        boolean encontrado = false;
+        for (Integer key : directorio.keySet()) {
+            Instrumento ins = directorio.get(key);
+            if (ins.getAutor().equalsIgnoreCase(autor)) {
+                System.out.println("Clave: " + key);
+                System.out.println(ins);
+                encontrado = true;
+            }
+        }
+        if (!encontrado) {
+            System.out.println("No se encontraron instrumentos para el autor: " + autor);
+        }
+    }
+
+    // 3. Buscar por condición y validez
+    public void consultarPorCondicionYValidez(int condicion, boolean validez) {
+        boolean encontrado = false;
+        for (Integer key : directorio.keySet()) {
+            Instrumento ins = directorio.get(key);
+            if (ins.getCondicion() == condicion && ins.isValidezConfiabilidad() == validez) {
+                System.out.println("Clave: " + key);
+                System.out.println(ins);
+                encontrado = true;
+            }
+        }
+        if (!encontrado) {
+            System.out.println("No se encontraron instrumentos con la condición y validez indicadas.");
+        }
+    }
+
 }
