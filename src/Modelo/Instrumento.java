@@ -164,7 +164,7 @@ public class Instrumento {
                 "Autor del instrumento: " + autor + "\n" +
                 "Tipo del instrumento: " + tipoInstrumento + "\n" +
                 "¿Es usado para el estrés o la ansiedad? Usado para " + convertirCondicion() + "\n" +
-                "Validez de confiabilidad: " + validezConfiabilidad + "\n" +
-                "Fecha de la cita: " + fecha + "\n";
+                "¿Evaluado como valido y confiabilidad? " + validezConfiabilidad + "\n" +
+                "Fecha donde se realizo la evaluación: " + fecha + "\n";
     }
 }

@@ -1,3 +1,4 @@
+import Modelo.Instrumento;
 import Modelo.SistemaAPA;
 import Vista.*;
 public static void main() {
@@ -35,6 +36,7 @@ public static void main() {
                 break;
             case 3:
                 System.out.println("Introduce la clave del instrumento: ");
+
                 int claveAEliminar = vista.leerNumeroEntero();
                 modelo.eliminarInstrumento(claveAEliminar);
                 break;
@@ -62,7 +64,9 @@ static void menuConsulta(Vista vista, SistemaAPA modelo) {
     int opcionConsulta = vista.pedirOpcionConsulta();
     switch(opcionConsulta) {
         case 1:
-            modelo.mostrarTodos();
+            // Vamos a mostrar el Arreglo
+            modelo.mostrarArreglo();
+            //modelo.mostrarTodos();
             break;
         case 2:
             String autorBusqueda = vista.pedirAutor();

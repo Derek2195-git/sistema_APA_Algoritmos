@@ -1,6 +1,7 @@
 package Modelo;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,6 +12,8 @@ public class SistemaAPA {
     private Instrumento instrumento;
     private HashMap<Integer, Instrumento> directorio;
     private int clave;
+    private int contador = 1;
+    Instrumento[] arregloI;
 
     /**
      * Constructor del sistema
@@ -30,6 +33,9 @@ public class SistemaAPA {
      */
     public void registrarInstrumento(String nombre, String autor, String tipoInstrumento, int condicion,
                                      boolean validez, String fecha) {
+
+
+
         instrumento = new Instrumento(nombre, autor, tipoInstrumento, condicion, validez, fecha);
         clave = generarClave();
 
@@ -41,6 +47,22 @@ public class SistemaAPA {
             System.out.println("Error: El sistema no pudo guardar en un archivo de texto el instrumento");
         }
     }
+
+    public Instrumento crearInstrumento(String nombre, String autor, String tipoInstrumento, int condicion,
+                                 boolean validez, String fecha) {
+        return new Instrumento(nombre, autor, tipoInstrumento, condicion, validez, fecha);
+    }
+
+    public void registrarInstrumento (Instrumento instrumento) {
+        arregloI = new Instrumento[10];
+        arregloI[contador-1] = instrumento;
+        System.out.println(arregloI[contador-1]);
+        aumentarCapacidadArreglo();
+        contador++;
+    }
+
+
+
 
     /**
      * Metodo sobrecargado de registrarInstrumento el cual permite una clave personalizada
@@ -74,6 +96,11 @@ public class SistemaAPA {
         return directorio.size() + factorClave;
     }
 
+
+    /*
+    Todo: Cambiar las consultas de tal forma que se usen lambdas y la vista los imprima
+
+     */
     /**
      * Version preliminar de la consulta la cual se esta
      * empleando mientras se elabora la sección de consultas
@@ -104,20 +131,33 @@ public class SistemaAPA {
 
     }
 
-    // 1. Mostrar todos ordenados por clave (del 1 en adelante)
 
+    public void aumentarCapacidadArreglo() {
+        int nuevoTamaño = (int) (arregloI.length + (arregloI.length * 0.25));
+        Instrumento[] arregloI = new Instrumento[nuevoTamaño];
+
+        System.out.println("El nuevo tamaño es de: " + nuevoTamaño);
+    }
+
+    // 1. Mostrar todos ordenados por clave (del 1 en adelante)
+    // Se cambio la firma y contenido de los metodos para reflejar
     /**
      * Metodo que muestra todos los instrumentos que hay en el directorio de instrumento, ordenados por clave
      */
-    public void mostrarTodos() {
-        if (directorio.isEmpty()) {
-            System.out.println("No hay instrumentos registrados.");
-            return;
-        }
+    public ArrayList<Instrumento> mostrarTodos() {
+        ArrayList<Instrumento> listadoInstrumentos = new ArrayList<>();
         directorio.entrySet().stream().forEach(k -> {
-            System.out.println("Clave: " + k.getKey());
-            System.out.println(k.getValue());
+            listadoInstrumentos.add(k.getValue());
         });
+        return listadoInstrumentos;
+    }
+
+    public void mostrarArreglo() {
+        int posicionActual = 0;
+        Arrays.stream(arregloI).forEach( k-> {
+                    System.out.println("Clave: " + (posicionActual+1));
+                    System.out.println(k);
+                });
     }
 
     // 2. Buscar instrumentos por autor
@@ -126,19 +166,19 @@ public class SistemaAPA {
      * Metodo que muestra todos los instrumentos bajo el nombre de un autor
      * @param autor Nombre del autor
      */
-    public void consultarPorAutor(String autor) {
-        boolean encontrado = false;
+    // Este no debe imprimir las cosas, la vista lo debe de hacer
+    // Debemos usar lambdas aqui
+    // Cambiar todas las consultas para que sigan estos principios
+    // Filtrar las cosas y volverlo una lista, luego se devuelve el arraylist o lo que vayamos a hacer
+    public ArrayList<Instrumento> consultarPorAutor(String autor) {
+        ArrayList<Instrumento> instrumentosPorAutor = new ArrayList();
         for (Integer key : directorio.keySet()) {
             Instrumento ins = directorio.get(key);
             if (ins.getAutor().equalsIgnoreCase(autor)) {
-                System.out.println("Clave: " + key);
-                System.out.println(ins);
-                encontrado = true;
+                instrumentosPorAutor.add(ins);
             }
         }
-        if (!encontrado) {
-            System.out.println("No se encontraron instrumentos para el autor: " + autor);
-        }
+        return instrumentosPorAutor;
     }
 
     // 3. Buscar por condición y validez
@@ -148,19 +188,15 @@ public class SistemaAPA {
      * @param condicion Numero correspondiente de la condicion a buscar
      * @param validez Resultado de la evaluación de validez y confiabilidad a buscar
      */
-    public void consultarPorCondicionYValidez(int condicion, boolean validez) {
-        boolean encontrado = false;
+    public ArrayList<Instrumento> consultarPorCondicionYValidez(int condicion, boolean validez) {
+        ArrayList<Instrumento> instrumentosPorCondicionValidez = new ArrayList<>();
         for (Integer key : directorio.keySet()) {
             Instrumento ins = directorio.get(key);
             if (ins.getCondicion() == condicion && ins.isValidezConfiabilidad() == validez) {
-                System.out.println("Clave: " + key);
-                System.out.println(ins);
-                encontrado = true;
+                instrumentosPorCondicionValidez.add(ins);
             }
         }
-        if (!encontrado) {
-            System.out.println("No se encontraron instrumentos con la condición y validez indicadas.");
-        }
+        return instrumentosPorCondicionValidez;
     }
 
     /**
@@ -168,16 +204,11 @@ public class SistemaAPA {
      * bajo un lambda y poder avisar que no hay resultados si no se encuentran
      * @param tipoBusqueda Tipo de los instrumentos a buscar
      */
-    public void consultarPorTipo(String tipoBusqueda) {
+    public ArrayList consultarPorTipo(String tipoBusqueda) {
         ArrayList<Map.Entry<Integer, Instrumento>> directorioFiltrado = directorio.entrySet().stream().filter((k) ->
                 k.getValue().getTipoInstrumento().equalsIgnoreCase(tipoBusqueda)
         ).collect(Collectors.toCollection(ArrayList::new));
-        if (directorioFiltrado.isEmpty()) System.out.println("No se encontraron instrumentos del tipo indicado");
-        else directorioFiltrado.forEach(k -> {
-            System.out.println("Clave: " + k.getKey());
-            System.out.println(k.getValue());
-        });
-
+        return directorioFiltrado;
     }
 
     /**
@@ -185,15 +216,11 @@ public class SistemaAPA {
      * para manejarlo bajo un lambda y poder avisar que no hay resultados si no se encuentran
      * @param condicionBusqueda
      */
-    public void consultarPorCondicion(int condicionBusqueda) {
+    public ArrayList consultarPorCondicion(int condicionBusqueda) {
         ArrayList<Map.Entry<Integer, Instrumento>> directorioFiltrado = directorio.entrySet().stream()
                 .filter(k -> k.getValue().getCondicion() == condicionBusqueda)
                 .collect(Collectors.toCollection(ArrayList::new));
-        if (directorioFiltrado.isEmpty()) System.out.println("No se encontraron instrumentos con la condicion indicada");
-        else directorioFiltrado.forEach(k -> {
-            System.out.println("Clave: " + k.getKey());
-            System.out.println(k.getValue());
-        });
+        return directorioFiltrado;
     }
 
     /**
@@ -201,16 +228,11 @@ public class SistemaAPA {
      * Map.Entry para manejar el metodo bajo un lambda y avisar en caso de que no haya coincidencias
      * @param validezBusqueda
      */
-    public void consultarPorValidez(boolean validezBusqueda) {
+    public ArrayList consultarPorValidez(boolean validezBusqueda) {
         ArrayList<Map.Entry<Integer, Instrumento>> directorioFiltrado = directorio.entrySet().stream()
                 .filter(k -> k.getValue().isValidezConfiabilidad() == validezBusqueda)
                 .collect(Collectors.toCollection(ArrayList::new));
-        if (directorioFiltrado.isEmpty()) System.out.println("No se encontraron instrumentos con la evaluación de " +
-                "validez y confiabilidad indicada");
-        else directorioFiltrado.forEach(k -> {
-            System.out.println("Clave: " + k.getKey());
-            System.out.println(k.getValue());
-        });
+        return directorioFiltrado;
     }
 
     /**
