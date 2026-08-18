@@ -65,29 +65,31 @@ static void menuConsulta(Vista vista, SistemaAPA modelo) {
     switch(opcionConsulta) {
         case 1:
             // Vamos a mostrar el Arreglo
-            modelo.mostrarArreglo();
-            //modelo.mostrarTodos();
+            //modelo.mostrarArreglo();
+            ArrayList<Instrumento> listaInstrumentos = modelo.mostrarTodos();
+            vista.mostrarTodosLosInstrumentos(listaInstrumentos);
             break;
         case 2:
-            String autorBusqueda = vista.pedirAutor();
-            modelo.consultarPorAutor(autorBusqueda);
+            ArrayList<Instrumento> instrumentosPorAutor = modelo.consultarPorAutor(vista.pedirAutor());
+            vista.mostrarLosInstrumentosDeAutor(instrumentosPorAutor);
             break;
         case 3:
-            int condicionBusqueda = vista.pedirCondicion();
-            boolean validezBusqueda = vista.pedirValidez();
-            modelo.consultarPorCondicionYValidez(condicionBusqueda, validezBusqueda);
+            ArrayList<Instrumento> instrumentosPorAutorValidez = modelo.consultarPorCondicionYValidez(
+                    vista.pedirCondicion(), vista.pedirValidez()
+            );
+            vista.mostrarLosInstrumentosPorCondicionValidez(instrumentosPorAutorValidez);
             break;
         case 4:
-            String tipoBusqueda = vista.pedirTipo();
-            modelo.consultarPorTipo(tipoBusqueda);
+            ArrayList instrumentosPorTipo = modelo.consultarPorTipo(vista.pedirTipo());
+            vista.mostrarInstrumentosFiltrados(instrumentosPorTipo);
          break;
         case 5:
-            condicionBusqueda = vista.pedirCondicion();
-            modelo.consultarPorCondicion(condicionBusqueda);
+            ArrayList instrumentosPorCondicion = modelo.consultarPorCondicion(vista.pedirCondicion());
+            vista.mostrarInstrumentosFiltrados(instrumentosPorCondicion);
             break;
         case 6:
-            validezBusqueda = vista.pedirValidez();
-            modelo.consultarPorValidez(validezBusqueda);
+            ArrayList instrumentosPorValidez = modelo.consultarPorValidez(vista.pedirValidez());
+            vista.mostrarInstrumentosFiltrados(instrumentosPorValidez);
             break;
         case 7:
         default:

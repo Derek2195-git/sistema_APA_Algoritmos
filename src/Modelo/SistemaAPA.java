@@ -204,7 +204,7 @@ public class SistemaAPA {
      * bajo un lambda y poder avisar que no hay resultados si no se encuentran
      * @param tipoBusqueda Tipo de los instrumentos a buscar
      */
-    public ArrayList consultarPorTipo(String tipoBusqueda) {
+    public ArrayList<Map.Entry<Integer, Instrumento>> consultarPorTipo(String tipoBusqueda) {
         ArrayList<Map.Entry<Integer, Instrumento>> directorioFiltrado = directorio.entrySet().stream().filter((k) ->
                 k.getValue().getTipoInstrumento().equalsIgnoreCase(tipoBusqueda)
         ).collect(Collectors.toCollection(ArrayList::new));

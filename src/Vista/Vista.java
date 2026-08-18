@@ -1,6 +1,8 @@
 package Vista;
 import Modelo.*;
 
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Vista {
@@ -156,6 +158,23 @@ public class Vista {
         return leerNumeroEntero();
     }
 
+    // 6 consultas
+    public void mostrarTodosLosInstrumentos(ArrayList<Instrumento> listaInstrumentos) {
+        listaInstrumentos.forEach(System.out::println);
+    }
 
+    public void mostrarLosInstrumentosDeAutor(ArrayList<Instrumento> listaInstrumentos) {
+        listaInstrumentos.forEach(System.out::println);
+    }
 
+    public void mostrarLosInstrumentosPorCondicionValidez(ArrayList<Instrumento> listaInstrumentos) {
+        listaInstrumentos.forEach(System.out::println);
+    }
+
+    public void mostrarInstrumentosFiltrados(ArrayList<Map.Entry<Integer, Instrumento>> directorioFiltrado) {
+        directorioFiltrado.forEach(k -> {
+            System.out.println("Clave: " + k.getKey());
+            System.out.println(k.getValue());
+        });
+    }
 }
