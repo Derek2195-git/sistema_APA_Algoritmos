@@ -1,3 +1,4 @@
+import Modelo.GestorArchivo;
 import Modelo.Instrumento;
 import Modelo.SistemaAPA;
 import java.util.ArrayList;
@@ -13,9 +14,10 @@ public static void main() {
      */
     Vista vista = new Vista();
     SistemaAPA modelo = new SistemaAPA();
-    int opcion = 0;
+    GestorArchivo gestor = new GestorArchivo();
+    int opcion;
     try {
-        modelo.leerArchivo();
+        modelo.cargarCSVDirectorio(gestor.leerArchivo());
     } catch (IOException e) {
         System.out.println("Error: " + e.getMessage());
     }
@@ -33,6 +35,8 @@ public static void main() {
                 boolean validez = vista.pedirValidez();
                 String fecha = vista.pedirFecha();
 
+
+                //modelo.registrarInstrumento(new Instrumento(), 1);
                 modelo.registrarInstrumento(nombre, autor, tipo, condicion, validez, fecha);
                 break;
             case 2:
@@ -47,7 +51,7 @@ public static void main() {
             case 4:
                 System.out.println("\nSaliendo...");
                 try {
-                    modelo.guardarArchivo();
+                    gestor.guardarArchivo(modelo.getDirectorio());
                 } catch (IOException e) {
                     System.out.println("Error: El sistema no pudo guardar en un archivo de texto el instrumento");
                 }

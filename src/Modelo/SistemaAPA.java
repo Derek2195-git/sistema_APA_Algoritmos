@@ -18,6 +18,7 @@ public class SistemaAPA {
     private int contador;
     private Instrumento[] instrumentos;
     Instrumento[] arregloI;
+    GestorArchivo gestor;
 
     /**
      * Constructor del sistema
@@ -27,6 +28,20 @@ public class SistemaAPA {
         contador = 0;
 
     }
+
+    /*
+    public void aumentarTamano(int aumento) {
+        Instrumento[ temp = new Instrumento[instrumentos.length + aumento];
+        for (int i=0; i<instrumento.length; i++) {
+            temp[i] = instrumento[i];
+        }
+        instrumento = temp;
+    }
+
+    public int calcularAumento() {
+        return (int) (arreglo.length * 1.25);
+    }
+     */
 
     /**
      * Metodo que crea el instrumento y lo registra al hashmap con una clave generada automaticamente
@@ -39,16 +54,13 @@ public class SistemaAPA {
      */
     public void registrarInstrumento(String nombre, String autor, String tipoInstrumento, int condicion,
                                      boolean validez, String fecha) {
-
-
-
         instrumento = new Instrumento(nombre, autor, tipoInstrumento, condicion, validez, fecha);
         clave = generarClave();
 
         directorio.put(clave, instrumento);
         System.out.println("Exito! Se creo el instrumento con los siguientes datos: \n" + instrumento);
         try {
-            guardarArchivo();
+            gestor.guardarArchivo(directorio);
         } catch (IOException e) {
             System.out.println("Error: El sistema no pudo guardar en un archivo de texto el instrumento");
         }
@@ -59,10 +71,10 @@ public class SistemaAPA {
         return new Instrumento(nombre, autor, tipoInstrumento, condicion, validez, fecha);
     }
 
-    public void registrarInstrumento (Instrumento instrumento) {
+    public void registrarInstrumento (Instrumento instrumento, int pos) {
         arregloI = new Instrumento[10];
-        arregloI[contador-1] = instrumento;
-        System.out.println(arregloI[contador-1]);
+        arregloI[pos-1] = instrumento;
+        System.out.println(arregloI[pos-1]);
         aumentarCapacidadArreglo(arregloI);
         contador++;
     }
@@ -103,10 +115,7 @@ public class SistemaAPA {
     }
 
 
-    /*
-    Todo: Cambiar las consultas de tal forma que se usen lambdas y la vista los imprima
 
-     */
     /**
      * Version preliminar de la consulta la cual se esta
      * empleando mientras se elabora la sección de consultas
@@ -127,7 +136,7 @@ public class SistemaAPA {
             directorio.remove(claveARemover);
             System.out.println("\nInstrumento eliminado.");
             try {
-                guardarArchivo();
+                gestor.guardarArchivo(directorio);
             } catch (IOException e) {
                 System.out.println("Error al guardar el archivo: " + e.getMessage());
             }
@@ -143,7 +152,9 @@ public class SistemaAPA {
             int nuevoTamaño = (int) (arreglo.length * 1.25);
 
             arreglo = Arrays.copyOf(arreglo, nuevoTamaño);
+            System.out.println("Se creo un nuevo arreglo de " + nuevoTamaño + "elementos");
         }
+
         return arreglo;
     }
 
@@ -243,30 +254,7 @@ public class SistemaAPA {
         return directorioFiltrado;
     }
 
-    /**
-     * Metodo que lee un archivo de texto CSV y pasa los datos de este al directorio de instrumentos
-     * @throws IOException Excepcion que ocurre en caso de que no se pueda cargar el archivo
-     */
-    public void leerArchivo() throws IOException {
-        ArrayList<String[]> arregloCSV = new ArrayList<>();
-        // Cargamos el archivo y lo metemos al arrayList
-
-        try (
-                BufferedReader lector = new BufferedReader(new FileReader("src/directorio.txt"))
-                ) {
-            String linea;
-            while ((linea = lector.readLine()) != null) {
-                if (!linea.trim().isEmpty()) {
-                    try {
-                        String[] celdas = linea.split(",");
-                        arregloCSV.add(celdas);
-                    } catch (Exception e) {
-                        System.out.println("Error en la linea: " + e.getMessage());
-                    }
-                }
-            }
-        }
-
+    public void cargarCSVDirectorio(ArrayList<String[]> arregloCSV) {
         // Una vez hecho esto deberia meter al hashmap el contenido del archivo
         arregloCSV.forEach(linea -> {
             String nombre = linea[0];
@@ -277,32 +265,12 @@ public class SistemaAPA {
             String fecha = linea[5];
             int clave = Integer.parseInt(linea[6]);
 
+
             registrarInstrumento(nombre, autor, tipo, condicion, validez, fecha, clave);
         });
     }
 
-    /**
-     * Metodo que guarda en un archivo .txt los instrumentos existentes en el directorio de instrumentos
-     * @throws IOException Excepcion que ocurre en el caso de que no se pueda escribir la informacion al archivo
-     */
-    public void guardarArchivo() throws IOException {
-        try (
-                BufferedWriter escritor = new BufferedWriter(new FileWriter("src/directorio.txt"));
-                ) {
-            directorio.forEach((k,v) -> {
-                try {
-                    escritor.write(v.getNombre() + "," + v.getAutor() + "," +
-                            v.getTipoInstrumento() + "," + v.getCondicion() + "," + v.isValidezConfiabilidad()
-                            + "," + v.getFecha() + "," + String.valueOf(k));
-                    escritor.newLine();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-
-        }
-
-
+    public HashMap<Integer, Instrumento> getDirectorio() {
+        return directorio;
     }
-
 }
