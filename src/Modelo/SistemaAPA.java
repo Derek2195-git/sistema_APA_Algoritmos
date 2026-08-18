@@ -8,11 +8,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+// El contador controla la posición
+//
+
 public class SistemaAPA {
     private Instrumento instrumento;
     private HashMap<Integer, Instrumento> directorio;
     private int clave;
-    private int contador = 1;
+    private int contador;
+    private Instrumento[] instrumentos;
     Instrumento[] arregloI;
 
     /**
@@ -20,6 +24,8 @@ public class SistemaAPA {
      */
     public SistemaAPA() {
         directorio = new HashMap<>();
+        contador = 0;
+
     }
 
     /**
@@ -57,7 +63,7 @@ public class SistemaAPA {
         arregloI = new Instrumento[10];
         arregloI[contador-1] = instrumento;
         System.out.println(arregloI[contador-1]);
-        aumentarCapacidadArreglo();
+        aumentarCapacidadArreglo(arregloI);
         contador++;
     }
 
@@ -132,11 +138,13 @@ public class SistemaAPA {
     }
 
 
-    public void aumentarCapacidadArreglo() {
-        int nuevoTamaño = (int) (arregloI.length + (arregloI.length * 0.25));
-        Instrumento[] arregloI = new Instrumento[nuevoTamaño];
+    public Instrumento[] aumentarCapacidadArreglo(Instrumento[] arreglo) {
+        if (contador == arreglo.length) {
+            int nuevoTamaño = (int) (arreglo.length * 1.25);
 
-        System.out.println("El nuevo tamaño es de: " + nuevoTamaño);
+            arreglo = Arrays.copyOf(arreglo, nuevoTamaño);
+        }
+        return arreglo;
     }
 
     // 1. Mostrar todos ordenados por clave (del 1 en adelante)

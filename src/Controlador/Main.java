@@ -1,6 +1,10 @@
 import Modelo.Instrumento;
 import Modelo.SistemaAPA;
+import java.util.ArrayList;
 import Vista.*;
+
+import java.io.IOException;
+
 public static void main() {
     /*
     Aqui se va a enlazar la vista y el modelo cuando esten listos, por mientras vayan trabajando
