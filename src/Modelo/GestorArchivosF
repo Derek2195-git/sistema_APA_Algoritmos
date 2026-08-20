@@ -1,0 +1,68 @@
+package Modelo;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class GestorArchivo {
+    /**
+     * Este es el metodo que lee un archivo de texto CSV y pasa los datos de este al
+     * directorio de instrumentos
+     * 
+     * @throws IOException Excepcion que ocurre en caso de que no se pueda cargar el
+     *                     archivo
+     */
+    public ArrayList<String[]> leerArchivo() throws IOException {
+        ArrayList<String[]> arregloCSV = new ArrayList<>();
+
+        try (
+                BufferedReader lector = new BufferedReader(new FileReader("src/directorio.csv"))) {
+            String linea;
+            boolean esEncabezado = true; // La primera linea es el encabezado como lo pidio la profe
+
+            while ((linea = lector.readLine()) != null) {
+                if (esEncabezado) {
+                    esEncabezado = false; // La saltamos y ya no volvemos a entrar aqui
+                    continue;
+                }
+                if (!linea.trim().isEmpty()) {
+                    try {
+                        String[] celdas = linea.split(",");
+                        arregloCSV.add(celdas);
+                    } catch (Exception e) {
+                        System.out.println("Error en la linea: " + e.getMessage());
+                    }
+                }
+            }
+        }
+
+        return arregloCSV;
+    }
+
+    /**
+     * Metodo que guarda en un archivo los instrumentos existentes en el
+     * directorio de instrumentos
+     * 
+     * @throws IOException
+     */
+    public void guardarArchivo(HashMap<Integer, Instrumento> directorio) throws IOException {
+        try (
+                BufferedWriter escritor = new BufferedWriter(new FileWriter("src/directorio.csv"))) {
+            // El encabezado se escribe primero, antes de cualquier dato como lo solicito la
+            // profe
+            escritor.write("nombre,autor,tipo,condicion,validez,fecha,clave");
+            escritor.newLine();
+
+            directorio.forEach((k, v) -> {
+                try {
+                    escritor.write(v.getNombre() + "," + v.getAutor() + "," +
+                            v.getTipoInstrumento() + "," + v.getCondicion() + "," + v.isValidezConfiabilidad()
+                            + "," + v.getFecha() + "," + String.valueOf(k));
+                    escritor.newLine();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+    }
+}
