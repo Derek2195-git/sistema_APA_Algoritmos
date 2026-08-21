@@ -3,8 +3,11 @@ package Modelo;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// Esta clase se va a reestructurar totalmente para estar más acorde a lo que se pidió en clase
 public class Instrumento {
+    // NUEVO ATRIBUTO:
+    private int clave;
+
+    // Atributos originales:
     private String nombre;
     private String autor;
     private String tipoInstrumento;
@@ -42,6 +45,26 @@ public class Instrumento {
         this.validezConfiabilidad = validezConfiabilidad;
         this.fecha = fecha;
     }
+
+    // --- NUEVOS MÉTODOS PARA LA CLAVE ---
+
+    /**
+     * Getter de la clave del instrumento
+     * @return Clave del instrumento
+     */
+    public int getClave() {
+        return clave;
+    }
+
+    /**
+     * Setter de la clave del instrumento
+     * @param clave Nueva clave
+     */
+    public void setClave(int clave) {
+        this.clave = clave;
+    }
+
+    // --- GETTERS Y SETTERS ORIGINALES ---
 
     /**
      * Getter del nombre del instrumento
@@ -160,7 +183,8 @@ public class Instrumento {
      */
     @Override
     public String toString() {
-        return "Nombre del instrumento: " + nombre + "\n" +
+        return "Clave del instrumento: " + clave + "\n" +
+                "Nombre del instrumento: " + nombre + "\n" +
                 "Autor del instrumento: " + autor + "\n" +
                 "Tipo del instrumento: " + tipoInstrumento + "\n" +
                 "¿Es usado para el estrés o la ansiedad? Usado para " + convertirCondicion() + "\n" +

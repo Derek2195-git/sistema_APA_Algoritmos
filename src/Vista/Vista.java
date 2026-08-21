@@ -171,10 +171,7 @@ public class Vista {
         listaInstrumentos.forEach(System.out::println);
     }
 
-    public void mostrarInstrumentosFiltrados(ArrayList<Map.Entry<Integer, Instrumento>> directorioFiltrado) {
-        directorioFiltrado.forEach(k -> {
-            System.out.println("Clave: " + k.getKey());
-            System.out.println(k.getValue());
-        });
+    public void mostrarInstrumentosFiltrados(ArrayList<Instrumento> directorioFiltrado) {
+        directorioFiltrado.forEach(System.out::println);
     }
 }

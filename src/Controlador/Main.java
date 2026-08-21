@@ -51,7 +51,7 @@ public static void main() {
             case 4:
                 System.out.println("\nSaliendo...");
                 try {
-                    gestor.guardarArchivo(modelo.getDirectorio());
+                    gestor.guardarArchivo(modelo.mostrarTodos());
                 } catch (IOException e) {
                     System.out.println("Error: El sistema no pudo guardar en un archivo de texto el instrumento");
                 }

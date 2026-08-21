@@ -142,18 +142,18 @@ public class VistaFX extends Application {
         grid.add(txtFecha, 1, 5);
         return grid;
     }
-/*
-Seccion de consulta del sistema
-las opciones para realizar consultas son estas:
--"clave"
--"autor"
--"Por autor"
--"Por forma"
--"Por condición"
--"Con validez"
--"Sin validez"
--"Por condición con validez"
- */
+    /*
+    Seccion de consulta del sistema
+    las opciones para realizar consultas son estas:
+    -"clave"
+    -"autor"
+    -"Por autor"
+    -"Por forma"
+    -"Por condición"
+    -"Con validez"
+    -"Sin validez"
+    -"Por condición con validez"
+     */
     private void crearConsulta() {
         cbConsulta = new ComboBox<>();
         cbConsulta.getItems().addAll(
@@ -256,7 +256,7 @@ las opciones para realizar consultas son estas:
         mostrarTodos();
         lblEstado.setText("Instrumento registrado.");
     }
-    //boton de eliminar
+    // boton de eliminar
     private void eliminar() {
         int clave;
         try {
@@ -266,7 +266,10 @@ las opciones para realizar consultas son estas:
             return;
         }
 
-        if (modelo.getDirectorio().containsKey(clave)) {
+        // Verificamos si existe usando un lambda (Stream)
+        boolean existe = modelo.mostrarTodos().stream().anyMatch(ins -> ins.getClave() == clave);
+
+        if (existe) {
             modelo.eliminarInstrumento(clave);
             guardarArchivo();
             mostrarTodos();
@@ -276,7 +279,7 @@ las opciones para realizar consultas son estas:
         }
         txtClave.clear();
     }
-    //boton de consulta
+    // boton de consulta
     private void consultar() {
         String opcion = cbConsulta.getValue();
         String filtro = txtFiltro.getText().trim();
@@ -284,10 +287,9 @@ las opciones para realizar consultas son estas:
 
         ArrayList<FilaTabla> resultado = new ArrayList<>();
 
-        //recorremos todos los instrumentos y nos quedamos con los que cumplen la consulta
-        for (Map.Entry<Integer, Instrumento> entrada : modelo.getDirectorio().entrySet()) {
-            int clave = entrada.getKey();
-            Instrumento ins = entrada.getValue();
+        // Recorremos el ArrayList directamente en lugar del HashMap
+        for (Instrumento ins : modelo.mostrarTodos()) {
+            int clave = ins.getClave();
             boolean cumple = false;
 
             if (opcion.equals("Todos por clave") || opcion.equals("Todos por autor")) {
@@ -310,8 +312,7 @@ las opciones para realizar consultas son estas:
                 resultado.add(new FilaTabla(clave, ins));
             }
         }
-
-        //ordenar
+        // ordenar
         if (opcion.equals("Todos por autor")) {
             Collections.sort(resultado, new Comparator<FilaTabla>() {
                 @Override
@@ -381,12 +382,12 @@ las opciones para realizar consultas son estas:
 
     private void guardarArchivo() {
         try {
-            gestor.guardarArchivo(modelo.getDirectorio());
+            // Ahora le mandamos el ArrayList en lugar del Map
+            gestor.guardarArchivo(modelo.mostrarTodos());
         } catch (IOException e) {
             lblEstado.setText("No se pudo guardar: " + e.getMessage());
         }
     }
-
     public static class FilaTabla {
         private final int clave;
         private final String nombre;

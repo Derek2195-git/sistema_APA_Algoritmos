@@ -6,8 +6,10 @@ import java.util.HashMap;
 
 public class GestorArchivo {
     // Todo: Crear un gestor de archivos
+
     /**
      * Metodo que lee un archivo de texto CSV y pasa los datos de este al directorio de instrumentos
+     *
      * @throws IOException Excepcion que ocurre en caso de que no se pueda cargar el archivo
      */
     public ArrayList<String[]> leerArchivo() throws IOException {
@@ -53,23 +55,27 @@ public class GestorArchivo {
      * Metodo que guarda en un archivo .txt los instrumentos existentes en el directorio de instrumentos
      * @throws IOException Excepcion que ocurre en el caso de que no se pueda escribir la informacion al archivo
      */
-    public void guardarArchivo(HashMap<Integer, Instrumento> directorio) throws IOException {
+    /**
+     * Metodo que guarda en un archivo .txt los instrumentos existentes
+     *
+     * @throws IOException Excepcion que ocurre en el caso de que no se pueda escribir
+     */
+    public void guardarArchivo(ArrayList<Instrumento> directorio) throws IOException {
         try (
-                BufferedWriter escritor = new BufferedWriter(new FileWriter("src/directorio.txt"));
+                BufferedWriter escritor = new BufferedWriter(new FileWriter("src/directorio.csv"));
         ) {
-            directorio.forEach((k,v) -> {
-                try {
-                    escritor.write(v.getNombre() + "," + v.getAutor() + "," +
-                            v.getTipoInstrumento() + "," + v.getCondicion() + "," + v.isValidezConfiabilidad()
-                            + "," + v.getFecha() + "," + String.valueOf(k));
-                    escritor.newLine();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            // Escribimos el encabezado primero
+            escritor.write("Nombre,Autor,Forma,Condicion,Validez,Fecha,Clave");
+            escritor.newLine();
 
+            // Iteramos sobre el ArrayList
+            for (Instrumento v : directorio) {
+                escritor.write(v.getNombre() + "," + v.getAutor() + "," +
+                        v.getTipoInstrumento() + "," + v.getCondicion() + "," + v.isValidezConfiabilidad()
+                        + "," + v.getFecha() + "," + v.getClave());
+                escritor.newLine();
+            }
         }
-
-
     }
 }
+
