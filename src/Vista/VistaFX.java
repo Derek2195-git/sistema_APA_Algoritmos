@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -48,6 +49,7 @@ public class VistaFX extends Application {
     private CheckBox chkValidez;
     private TextField txtFecha;
     private Button btnRegistrar;
+    private HBox contenedorBoton;
 
     //seccion de consulta
     private ComboBox<String> cbConsulta;
@@ -76,6 +78,7 @@ public class VistaFX extends Application {
         crearEliminar();
 
         lblEstado = new Label("Listo.");
+        lblEstado.getStyleClass().add("lbl-estado");
 
         HBox filaConsulta = new HBox(8, cbConsulta, txtFiltro, btnConsultar);
         HBox filaEliminar = new HBox(8, new Label("Eliminar por clave:"), txtClave, btnEliminar);
@@ -90,9 +93,12 @@ public class VistaFX extends Application {
         raiz.getChildren().add(filaEliminar);
         raiz.getChildren().add(lblEstado);
 
+        VBox.setVgrow(tabla, Priority.ALWAYS);
+
         mostrarTodos();
 
         Scene escena = new Scene(raiz, 800, 560);
+        escena.getStylesheets().add(getClass().getResource("estilos.css").toExternalForm());
         stage.setTitle("Sistema APA");
         stage.setScene(escena);
         stage.setOnCloseRequest(e -> guardarArchivo());
@@ -119,13 +125,19 @@ public class VistaFX extends Application {
         txtFecha.setPromptText("dd/mm/aaaa");
         //boton para guardar el registro
         btnRegistrar = new Button("Registrar");
+        btnRegistrar.getStyleClass().add("btn-registrar");
         btnRegistrar.setOnAction(e -> registrar());
+
+        // Hice un contenedor para centrar el botón
+        contenedorBoton = new HBox(btnRegistrar);
+        contenedorBoton.getStyleClass().add("contenedor-acciones");
     }
 
     //metrdo privado para hacer la tabla con la informacion del registro
     // aqui se mostraran los registros hechos por el usuario y consultas
     private GridPane crearGridFormulario() {
         GridPane grid = new GridPane();
+        grid.getStyleClass().add("card-formulario");
         grid.setHgap(8);
         grid.setVgap(6);
         grid.add(new Label("Nombre:"), 0, 0);
@@ -171,6 +183,7 @@ public class VistaFX extends Application {
         //txtFiltro.setPromptText("autor / forma / condición");
 
         btnConsultar = new Button("Consultar");
+        btnConsultar.getStyleClass().add("btn-consultar");
         btnConsultar.setOnAction(e -> consultar());
     }
 
@@ -212,6 +225,7 @@ public class VistaFX extends Application {
         tabla.setPlaceholder(new Label("Sin instrumentos"));
         //medida de los pixeles
         tabla.setFixedCellSize(26);
+        tabla.setPrefHeight(240); // ajusta el número al alto que prefieras
     }
     /*
     seccion de eliminar, aqui la única opción es eliminar por clave
@@ -223,6 +237,7 @@ public class VistaFX extends Application {
         txtClave.setPrefWidth(70);
 
         btnEliminar = new Button("Eliminar");
+        btnEliminar.getStyleClass().add("btn-eliminar");
         btnEliminar.setOnAction(e -> eliminar());
     }
 
@@ -343,11 +358,6 @@ public class VistaFX extends Application {
     private void llenarTabla(ArrayList<FilaTabla> filas) {
         ObservableList<FilaTabla> datos = FXCollections.observableArrayList(filas);
         tabla.setItems(datos);
-        //La tabla incrementa la cantidad de filas
-        int numFilas = Math.max(1, filas.size());
-        tabla.setPrefHeight(30 + 26 * numFilas);
-        tabla.setMinHeight(30 + 26 * numFilas);
-        tabla.setMaxHeight(30 + 26 * numFilas);
     }
 
     //convierte el nombre de la condicipn a número

@@ -1,0 +1,202 @@
+.root {
+    /* Colores */
+    -color-fondo:        #F5F9FB;
+    -color-superficie:   #FFFFFF;
+    -color-borde:        #C9D9E0;
+    -color-texto:        #2B3A42;
+    -color-texto-suave:  #64798A;
+
+    -color-azul:         #3E7CA6;
+    -color-azul-hover:   #33668C;
+
+    -color-verde:        #09d98a;
+    -color-verde-hover:  #10da75;
+
+    -color-rojo: #de0e0e;
+    -color-rojo-hover: #b71d1d;
+
+    -fx-background-color: -color-fondo;
+    -fx-font-size: 12px; /* base más pequeña, todo lo demás escala relativo a esto */
+}
+
+/* fondo del programa */
+.app-root {
+    -fx-background-color: -color-fondo;
+    -fx-padding: 10;
+}
+
+/* Titulos y subtitulos */
+.titulo-app {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-azul;
+}
+
+.subtitulo-app {
+    -fx-font-size: 10.5px;
+    -fx-text-fill: -color-texto-suave;
+}
+
+/*  Labels */
+.label {
+    -fx-text-fill: -color-texto;
+    -fx-font-size: 11.5px;
+}
+
+.lbl-estado {
+    -fx-font-size: 10.5px;
+    -fx-text-fill: -color-texto-suave;
+    -fx-padding: 4 0 0 2;
+}
+
+/* Campos de texto, checkbox y otros elementos del formulario */
+.card-formulario {
+    -fx-background-color: -color-superficie;
+    -fx-background-radius: 6;
+    -fx-border-color: -color-borde;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+}
+
+.text-field, .combo-box, .check-box {
+    -fx-font-size: 11.5px;
+}
+
+.text-field {
+    -fx-background-color: -color-superficie;
+    -fx-border-color: -color-borde;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 4 6 4 6;
+}
+
+.text-field:focus {
+    -fx-border-color: -color-azul;
+}
+
+.combo-box {
+    -fx-background-color: -color-superficie;
+    -fx-border-color: -color-borde;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.check-box:selected .box {
+    -fx-background-color: -color-verde;
+    -fx-border-color: -color-verde;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: black;
+}
+
+/*  Botones  */
+.button {
+    -fx-font-size: 11.5px;
+    -fx-background-radius: 4;
+    -fx-padding: 5 12 5 12;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+    -fx-background-color: -color-verde;
+}
+
+.button:hover {
+    -fx-background-color: -color-verde-hover;
+}
+
+.btn-registrar {
+    -fx-background-color: -color-verde;
+}
+.btn-registrar:hover {
+    -fx-background-color: -color-verde-hover;
+}
+
+.btn-consultar {
+    -fx-background-color: -color-azul;
+}
+.btn-consultar:hover {
+    -fx-background-color: -color-azul-hover;
+}
+
+
+.btn-eliminar {
+    -fx-background-color: -color-rojo;
+}
+.btn-eliminar:hover {
+    -fx-background-color: -color-rojo-hover;
+}
+
+.contenedor-acciones {
+    -fx-alignment: center;
+    -fx-padding: 8 0 0 0;
+}
+
+/* Separadores */
+.separator .line {
+    -fx-border-color: -color-borde transparent transparent transparent;
+}
+
+/* Estilos para la tabla */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -color-azul;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 10.5px;
+}
+
+.table-row-cell {
+    -fx-background-color: -color-superficie;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #EAF3F6;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: -color-texto;
+    -fx-font-size: 11px;
+    -fx-padding: 4 8 4 8;
+}
+
+.table-view .placeholder .label {
+    -fx-text-fill: -color-texto-suave;
+}
+
+/* Slider para la tabla por si acaso */
+
+.table-view .scroll-bar:vertical,
+.table-view .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.table-view .scroll-bar .track {
+    -fx-background-color: -color-fondo;
+    -fx-background-radius: 6;
+    -fx-border-width: 0;
+}
+
+.table-view .scroll-bar .thumb {
+    -fx-background-color: -color-borde;
+    -fx-background-radius: 6;
+}
+
+.table-view .scroll-bar:vertical {
+    -fx-pref-width: 10px;
+}
+
+.table-view .scroll-bar:horizontal {
+    -fx-pref-height: 10px;
+}
