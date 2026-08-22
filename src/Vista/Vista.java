@@ -88,7 +88,7 @@ public class Vista {
      */
     public String pedirFecha() {
         System.out.println("Escribe la fecha en la que se realizó la evaluacion de validez y " +
-                "confiabilidad en el formato que se desee");
+                "confiabilidad en el siguiente formato: DD/MM/AAAA");
         return leerCadena();
     }
 
@@ -98,7 +98,12 @@ public class Vista {
      * @return Una cadena sin espacios innecesarios y convertida a minusculas
      */
     public String leerCadena() {
-        return teclado.nextLine().trim().toLowerCase().replace(",", "");
+        String cadena = teclado.nextLine().trim().toLowerCase().replace(",", "");
+        while (cadena.isEmpty()) {
+            System.out.println("Error: La cadena no puede estar vacia");
+            cadena = teclado.nextLine().trim().toLowerCase().replace(",", "");
+        }
+        return cadena;
     }
 
     /**

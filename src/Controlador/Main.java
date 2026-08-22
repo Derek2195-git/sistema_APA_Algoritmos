@@ -6,6 +6,8 @@ import Vista.*;
 
 import java.io.IOException;
 
+// TODO: Pasar a un projecto de JavaFX este proyecto para empezar con lo visual
+
 public static void main() {
     /*
     Aqui se va a enlazar la vista y el modelo cuando esten listos, por mientras vayan trabajando

@@ -1,17 +1,11 @@
 package Modelo;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class SistemaAPA {
-    private Coleccion coleccion; // ¡Aquí usamos nuestra nueva clase!
+    private Coleccion coleccion;
     GestorArchivo gestor;
 
     /**
@@ -39,7 +33,7 @@ public class SistemaAPA {
         Instrumento instrumento = new Instrumento(nombre, autor, tipoInstrumento, condicion, validez, fecha);
         instrumento.setClave(clave);
 
-        coleccion.registrarInstrumento(instrumento); // Delegamos a la clase colección
+        coleccion.registrarInstrumento(instrumento);
 
         System.out.println("Exito! Se creo el instrumento con los siguientes datos: \n" + instrumento);
         try {
@@ -105,6 +99,9 @@ public class SistemaAPA {
 
     public void cargarCSVDirectorio(ArrayList<String[]> arregloCSV) {
         arregloCSV.forEach(linea -> {
+            if (linea.length < 7 || linea[0].equalsIgnoreCase("Nombre")) {
+                return;
+            }
             String nombre = linea[0];
             String autor = linea[1];
             String tipo = linea[2];

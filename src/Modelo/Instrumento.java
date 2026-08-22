@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Instrumento {
-    // NUEVO ATRIBUTO:
     private int clave;
-
-    // Atributos originales:
     private String nombre;
     private String autor;
     private String tipoInstrumento;

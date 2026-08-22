@@ -1,2 +1,0 @@
-pelota antiestresante,alex carswell,pelota,2,true,01/05/2003,2
-g,fg,g,3,true,2,3
